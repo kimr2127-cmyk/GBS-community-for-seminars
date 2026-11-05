@@ -3,7 +3,7 @@
   2) 아래 두 값을 Project Settings > API의 값으로 바꿉니다.
   anon key는 공개 가능한 키입니다. service_role 키는 절대 넣지 마세요.
 */
-const SUPABASE_URL = "https://wefsrenaeicmyeggvvnf.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://wefsrenaeicmyeggvvnf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_rz_aJLSUMiQ_jmSAzFj-dQ_Ad8rwsbH";
 // 최초 로그인용 공통 비밀번호입니다. 실제 배포 전 이 값을 교체해 주세요.
 // 이 값은 브라우저에 공개되므로, 첫 로그인 뒤 개인 비밀번호 변경을 강제합니다.
