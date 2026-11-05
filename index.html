@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="학생을 위한 학술 대화 커뮤니티, 세미나" />
+    <title>세미나 — 학생 학술 커뮤니티</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .logout-button{display:block;margin:11px auto 0;border:0;background:none;color:#8c8980;font:11px 'Noto Sans KR',sans-serif;cursor:pointer}.auth-screen{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 15% 20%,#f4dfb3 0,transparent 25%),radial-gradient(circle at 85% 80%,#c7d8d1 0,transparent 27%),#fbfaf6}.auth-card{width:min(410px,100%);background:rgba(255,255,255,.7);border:1px solid #e7e5dc;border-radius:8px;padding:36px;box-shadow:0 18px 45px rgba(53,45,27,.08)}.auth-brand{margin-bottom:43px}.auth-card h1{font:600 29px/1.4 'Playfair Display','Noto Sans KR',serif;letter-spacing:-1.2px;margin:0}.auth-card h1 em{color:#e66b3d}.auth-intro{font-size:12px;color:#74736c;margin:11px 0 25px}.login-form{display:grid;gap:15px}.login-form label,.password-dialog label{display:grid;gap:7px;font-size:12px;font-weight:600}.login-form input,.password-dialog input{width:100%;padding:11px;border:1px solid #dedbd0;border-radius:4px;background:#fff;font:13px 'Noto Sans KR',sans-serif;color:#202019}.login-button{width:100%;border:0;border-radius:4px;background:#273b54;color:#fff;padding:12px;font:600 13px 'Noto Sans KR',sans-serif;cursor:pointer}.auth-help,.auth-message,.form-message{font-size:11px;line-height:1.7;color:#89867d;margin:19px 0 0}.auth-message,.form-message{color:#bd4a30;min-height:18px;margin-top:10px}.password-dialog{border:0;border-radius:8px;width:min(410px,calc(100vw - 32px));padding:0;background:#fbfaf6;box-shadow:0 18px 50px rgba(27,27,20,.25)}.password-dialog::backdrop{background:rgba(22,26,25,.45);backdrop-filter:blur(2px)}.password-dialog form{padding:30px}.password-dialog h2{font:600 24px/1.4 'Playfair Display','Noto Sans KR',serif;margin:0}.password-dialog p:not(.eyebrow):not(.form-message){font-size:12px;line-height:1.7;color:#74736c;margin:13px 0 22px}.password-dialog label{margin-top:14px}.password-dialog .publish-button{width:100%;margin-top:23px}@media(max-width:700px){.auth-card{padding:28px 22px}}
+    </style>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+      <div class="auth-card">
+        <a href="#" class="brand auth-brand"><span class="brand-mark">S</span><span>세미나</span></a>
+        <p class="eyebrow">MEMBERS ONLY</p>
+        <h1 id="auth-title">생각을 나누는<br /><em>우리들의 세미나</em></h1>
+        <p class="auth-intro">1400–1421 학생만 이용할 수 있습니다.</p>
+        <form id="login-form" class="login-form">
+          <label>학번<input id="student-id" inputmode="numeric" autocomplete="username" minlength="4" maxlength="4" placeholder="예: 1400" required /></label>
+          <label>비밀번호<input id="login-password" type="password" autocomplete="current-password" placeholder="비밀번호 입력" required /></label>
+          <button type="submit" class="login-button">로그인하기</button>
+        </form>
+        <p class="auth-help">처음 로그인하는 학생은 관리자에게 받은 공통 초기 비밀번호를 입력하세요. 로그인 후 나만의 비밀번호를 설정합니다.</p>
+        <p class="auth-message" id="auth-message" role="status"></p>
+      </div>
+    </section>
+
+    <header class="site-header hidden" id="site-header">
+      <a href="#" class="brand" aria-label="세미나 홈">
+        <span class="brand-mark">S</span>
+        <span>세미나</span>
+      </a>
+      <div class="header-actions">
+        <button class="icon-button search-toggle" aria-label="검색 열기">⌕</button>
+        <button class="avatar-button" id="member-avatar" aria-label="내 프로필">?</button>
+      </div>
+    </header>
+
+    <div class="app-shell hidden" id="app-shell">
+      <aside class="sidebar" aria-label="주 메뉴">
+        <nav class="main-nav">
+          <a class="nav-link active" href="#feed" data-view="feed"><span>◉</span> 탐색</a>
+          <a class="nav-link" href="#following" data-view="following"><span>◌</span> 팔로잉</a>
+          <a class="nav-link" href="#bookmarks" data-view="bookmarks"><span>▱</span> 저장됨</a>
+        </nav>
+        <div class="sidebar-section">
+          <p class="eyebrow">내 관심 분야</p>
+          <div id="interest-tags" class="interest-tags"></div>
+          <button class="text-button" id="manage-tags">+ 관심 분야 관리</button>
+        </div>
+        <div class="sidebar-bottom">
+          <button class="new-post-button" id="open-composer"><span>+</span> 새 토론</button>
+          <button class="logout-button" id="logout-button">로그아웃</button>
+          <p class="server-status" id="server-status"><i></i> 로그인 필요</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <section class="feed-view" id="feed-view">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">STUDENT COMMONS</p>
+              <h1>오늘의 <em>학술 대화</em></h1>
+              <p class="subtitle">좋은 질문에서 더 나은 공부가 시작됩니다.</p>
+            </div>
+            <button class="filter-button" id="filter-button">최신순 <span>⌄</span></button>
+          </div>
+
+          <div class="topic-strip" id="topic-strip" aria-label="주제 필터"></div>
+          <div id="feed" class="post-list" aria-live="polite"></div>
+          <div class="empty-state hidden" id="empty-state">
+            <span>⌁</span>
+            <h2>아직 대화가 없어요</h2>
+            <p>첫 번째 학술 토론을 시작해 보세요.</p>
+          </div>
+        </section>
+
+        <section class="detail-view hidden" id="detail-view">
+          <button class="back-button" id="back-to-feed">← 모든 토론</button>
+          <article id="post-detail"></article>
+          <section class="reply-section">
+            <h2 id="reply-count">댓글</h2>
+            <form id="reply-form" class="reply-form">
+              <div class="avatar-small">김</div>
+              <textarea id="reply-content" placeholder="근거를 덧붙여 답변해 주세요…" required maxlength="1000"></textarea>
+              <button type="submit" class="reply-submit">답글 남기기</button>
+            </form>
+            <div id="reply-list" class="reply-list"></div>
+          </section>
+        </section>
+      </main>
+
+      <aside class="rightbar">
+        <section class="side-card library-card">
+          <p class="eyebrow">THIS WEEK</p>
+          <h2>함께 읽는 논문</h2>
+          <div class="paper-line"></div>
+          <p class="paper-title">Attention Is All You Need</p>
+          <p class="paper-meta">Vaswani et al. · 2017</p>
+          <button class="text-button">읽기 모임 참여하기 →</button>
+        </section>
+        <section class="side-card">
+          <div class="card-title-row"><h2>활발한 분야</h2><button class="more-button">더보기</button></div>
+          <div id="trending-list" class="trending-list"></div>
+        </section>
+        <section class="guideline">
+          <span>✦</span>
+          <p>주장을 나눌 때는 가능한 한 출처와 근거를 함께 남겨 주세요.</p>
+        </section>
+      </aside>
+    </div>
+
+    <div class="modal-backdrop hidden" id="modal-backdrop"></div>
+    <dialog class="composer" id="composer">
+      <form id="post-form" method="dialog">
+        <div class="modal-header"><div><p class="eyebrow">NEW DISCUSSION</p><h2>새 학술 토론</h2></div><button type="button" class="close-button" id="close-composer" aria-label="닫기">×</button></div>
+        <label>제목<input id="post-title" required maxlength="150" placeholder="함께 생각해 볼 질문을 적어 주세요" /></label>
+        <label>내용<textarea id="post-body" required maxlength="5000" placeholder="무엇이 궁금한가요? 현재 생각과 참고한 자료를 자유롭게 적어 주세요."></textarea></label>
+        <label>분야<select id="post-topic" required></select></label>
+        <div class="form-footer"><p>상호 존중과 근거 중심의 대화를 지켜 주세요.</p><button type="submit" class="publish-button">토론 발행하기</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="password-dialog" id="password-dialog">
+      <form id="password-form" method="dialog">
+        <p class="eyebrow">FIRST LOGIN</p>
+        <h2>나만의 비밀번호를<br />설정해 주세요</h2>
+        <p>공통 초기 비밀번호는 첫 로그인에만 사용합니다. 8자 이상으로 새 비밀번호를 만들어 주세요.</p>
+        <label>새 비밀번호<input id="new-password" type="password" autocomplete="new-password" minlength="8" required /></label>
+        <label>새 비밀번호 확인<input id="new-password-confirm" type="password" autocomplete="new-password" minlength="8" required /></label>
+        <p id="password-message" class="form-message" role="status"></p>
+        <button type="submit" class="publish-button">비밀번호 저장하고 시작하기</button>
+      </form>
+    </dialog>
+
+    <div class="search-panel hidden" id="search-panel">
+      <div class="search-box"><span>⌕</span><input id="search-input" placeholder="토론, 과목, 키워드 검색" autofocus /><kbd>ESC</kbd></div>
+      <div id="search-results" class="search-results"></div>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
